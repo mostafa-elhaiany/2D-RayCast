@@ -1,3 +1,6 @@
+"""
+Set of helper functions
+"""
 import numpy as np
 
 def normalize_2d(matrix):

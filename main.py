@@ -10,12 +10,14 @@ screen = pygame.display.set_mode((config.WIDTH, config.HEIGHT))
 
 pygame.display.set_caption("2D Ray Casting")
 
-bounds = [
+bounds = [ # list of random boundaries in game
     Boundary((random.randint(0,config.HEIGHT),random.randint(0,config.WIDTH)), (random.randint(0,config.HEIGHT),random.randint(0,config.WIDTH)))
     for _ in range(5)
 ]
 
-particles = [
+particles = [ # list of particles 
+              # This was created as a list to allow for multiple particles
+              # Make sure to add the new particles in `handle_mouse_events`
     Particle((config.HEIGHT//2, config.WIDTH//2),5,1000)
 ]
 
@@ -36,14 +38,11 @@ def draw():
 
 def handle_mouse_events(event):
     """
-    Checks if the given Pygame event is a mouse button click or a mouse wheel scroll.
+    Handles mouse events like clicking and scroll wheel
     
     Parameters:
     event (pygame.event.Event): The event to check.
-    
-    Returns:
-    bool: True if the event is a mouse button click or a wheel scroll, False otherwise.
-    """
+        """
     global bounds
     global particles
     # Mouse button click

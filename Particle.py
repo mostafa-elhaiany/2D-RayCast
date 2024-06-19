@@ -1,3 +1,7 @@
+"""
+Class housing particle interactions 
+Its created as a class to allow for the creation of multiple particles 
+"""
 import numpy as np
 from Ray import Ray
 class Particle:
@@ -13,15 +17,26 @@ class Particle:
         print(self.increments, angle_increments, len(self.rays))
     
     def set_pos(self, pos):
+        """
+        Edit the position of the particle
+        Used to move the particle to mouse position
+        """
         self.pos = np.array(pos)
         for ray in self.rays:
             ray.set_pos(pos)
 
 
     def draw(self, pygame, screen):
+        """
+        Visualization
+        """
         pygame.draw.circle(screen, (255,255,255), self.pos, 2) 
 
     def cast(self, bounds, pygame, screen):
+        """
+        The ray-cast logic for each ray find the closest boundary intersection 
+        This allows for collision detection
+        """
         for r in self.rays:
             closest_dist = np.inf
             closest = None
