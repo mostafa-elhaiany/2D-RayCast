@@ -52,7 +52,7 @@ def handle_mouse_events(event):
                 Boundary((random.randint(0,config.HEIGHT),random.randint(0,config.WIDTH)), 
                          (random.randint(0,config.HEIGHT),random.randint(0,config.WIDTH))
                          ,
-                         color = (0,0,175))
+                         color = (255,255,255))
                 for _ in range(5)
             ]
     # Mouse wheel scroll
