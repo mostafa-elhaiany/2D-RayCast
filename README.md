@@ -1,12 +1,9 @@
 # 2D-RayCast
 PyGame-based visualization for 2D RayCaster
 
-<img src="graphics/4.png" alt="drawing" width="210" height="200"/>
-<img src="graphics/2.png" alt="drawing" width="210" height="200"/>
-<img src="graphics/3.png" alt="drawing" width="210" height="200"/>
+<img src="graphics/4.png" alt="drawing" width="210" height="200"/>&nbsp;<img src="graphics/2.png" alt="drawing" width="210" height="200"/>&nbsp;<img src="graphics/3.png" alt="drawing" width="210" height="200"/>
 
-<img src="graphics/1.gif" alt="drawing" width="325" height="300"/>
-<img src="graphics/2.gif" alt="drawing" width="325" height="300"/>
+<img src="graphics/1.gif" alt="drawing" width="325" height="300"/> &nbsp; &nbsp; &nbsp; <img src="graphics/2.gif" alt="drawing" width="325" height="300"/>
 
 ## overview
 The next sections explain the mathematical concepts behind ray casting and how it works in 2D.
@@ -53,55 +50,42 @@ In this Pygame implementation of ray casting, we start by setting up a black scr
 
 Consider a particle located at a point $(P_x, P_y)$ with a ray that has an angle $\theta$. We aim to calculate the endpoint of this ray by determining the direction vector based on the angle and adding it to the start point.
 
-The direction vector $\mathbf{v}$ for a given angle $\theta$ can be calculated using trigonometric functions:
+The direction vector $\mathbf{v}$ for a given angle $\theta$ with a length of $\mathbf{L}$ can be calculated using trigonometric functions:
 
-$ \mathbf{v} = (\cos(\theta), \sin(\theta)) $
+$$ \mathbf{v} = (L \cdot \cos(\theta), L \cdot \sin(\theta)) $$
 
-If we want the ray to have a specific length $L$, we scale the unit direction vector:
+The endpoint $(\mathbf{E_x}, \mathbf{E_y})$ of the ray from the starting point  $(\mathbf{P_x}, \mathbf{P_y})$ can be found by adding the direction vector to the start point:
 
-$ \mathbf{v} = (L \cdot \cos(\theta), L \cdot \sin(\theta)) $
-
-The endpoint $(E_x, E_y)$ of the ray from the starting point $(P_x, P_y)$ can be found by adding the direction vector to the start point:
-
-$ (E_x, E_y) = (P_x + L \cdot \cos(\theta), P_y + L \cdot \sin(\theta)) $
+$$ (E_x, E_y) = (P_x + L \cdot \cos(\theta), P_y + L \cdot \sin(\theta)) $$
 
 ## Line Intersection
 
-Now, let's determine the intersection of this ray with a wall represented by the line segment between points $(X_1, Y_1)$ and $(X_2, Y_2)$.
+Now, let's determine the intersection of this ray with a wall represented by the line segment between points  $(\mathbf{X_1}, \mathbf{Y_1})$ and $(\mathbf{X_2}, \mathbf{Y_2})$.
+The line segment denoting the boundary can then be given by:
 
-The ray from $(P_x, P_y)$ in the direction $\mathbf{v}$:
-
-$ \mathbf{r}(t) = (P_x + t \cdot v_x, P_y + t \cdot v_y) $
-
-The line segment from $(X_1, Y_1)$ to $(X_2, Y_2)$:
-
-$ \mathbf{l}(u) = (x1 + u \cdot (x2 - x1), y1 + u \cdot (y2 - y1)) $
+$$ \mathbf{l}(u) = (x1 + u \cdot (x2 - x1), y1 + u \cdot (y2 - y1)) $$
 
 ### Finding the Intersection
 
 The intersection occurs when:
 
-$ P_x + t \cdot v_x = x1 + u \cdot (X_2 - X_1) $ &
-$ P_y + t \cdot v_y = y1 + u \cdot (Y_2 - Y_1) $
+$$ P_x + t \cdot v_x = x1 + u \cdot (X_2 - X_1) ,  P_y + t \cdot v_y = y1 + u \cdot (Y_2 - Y_1) $$
 
 This can be written as a system of linear equations:
 
-$ P_x + t \cdot (E_x - P_x) = x1 + u \cdot (x2 - x1) $
+$$ P_x + t \cdot (E_x - P_x) = x1 + u \cdot (x2 - x1) ,  P_y + t \cdot (E_y - P_y) = y1 + u \cdot (y2 - y1) $$
 
-$ P_y + t \cdot (E_y - P_y) = y1 + u \cdot (y2 - y1) $
+Solving for `t` and `u` yields:
 
-Solving for $t$ and $u$ yields:
-
-$ t = \frac{(x1 - P_x)(y1 - y2) - (y1 - P_y)(x1 - x2)}{(E_x - P_x)(y1 - y2) - (E_y - P_y)(x1 - x2)} $
-$ u = \frac{(x1 - P_x)(y1 - P_y) - (y1 - P_y)(x1 - P_x)}{(x1 - x2)(y1 - P_y) - (y1 - y2)(x1 - P_x)} $
+$$ t = \frac{(x1 - P_x)(y1 - y2) - (y1 - P_y)(x1 - x2)}{(E_x - P_x)(y1 - y2) - (E_y - P_y)(x1 - x2)} ,\\\ u = \frac{(x1 - P_x)(y1 - P_y) - (y1 - P_y)(x1 - P_x)}{(x1 - x2)(y1 - P_y) - (y1 - y2)(x1 - P_x)} $$
 
 For the intersection to be valid:
 - $0 \leq u \leq 1$: The intersection point lies within the segment.
 - $t \geq 0$: The intersection point lies on the ray extending from the particle.
 
-If these conditions are met, the intersection point $(I_x, I_y)$ is:
+If these conditions are met, the intersection point is:
 
-$ (I_x, I_y) = (P_x + t \cdot v_x, P_y + t \cdot v_y) $
+$$ (I_x, I_y) = (P_x + t \cdot v_x, P_y + t \cdot v_y) $$
 
 # Installation
 
