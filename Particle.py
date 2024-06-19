@@ -5,8 +5,12 @@ class Particle:
     def __init__(self, pos, angle_increments=10, dist=50):
         self.pos = np.array(pos)
         self.rays = []
-        for a in range(0,360, angle_increments):
+        self.increments = max(0.2, min(angle_increments, 36))
+        a = 0
+        while a < 360: 
             self.rays.append(Ray(pos, a, dist=dist))
+            a+=angle_increments
+        print(self.increments, angle_increments, len(self.rays))
     
     def set_pos(self, pos):
         self.pos = np.array(pos)
@@ -30,6 +34,6 @@ class Particle:
                         closest = point
                 
             if(closest is not None):
-                pygame.draw.line(screen, (255,255,255), r.pos, closest) 
+                pygame.draw.line(screen, (0,255,0), r.pos, closest) 
             else:
-                pygame.draw.line(screen, (0,0,0), r.pos, r.end_pos) 
+                pygame.draw.line(screen, (175,0,0), r.pos, r.end_pos) 
