@@ -1,20 +1,22 @@
 import sys
 import pygame 
 import config
+import random
 from Boundary import Boundary
-from Ray import Ray
-
+from Particle import Particle
 pygame.init()
 
 screen = pygame.display.set_mode((config.WIDTH, config.HEIGHT))
+
 pygame.display.set_caption("2D Ray Casting")
 
 bounds = [
-    Boundary((10,10), (20,40))
+    Boundary((random.randint(0,config.HEIGHT),random.randint(0,config.WIDTH)), (random.randint(0,config.HEIGHT),random.randint(0,config.WIDTH)))
+    for _ in range(5)
 ]
 
-rays = [
-    Ray((config.HEIGHT//2,config.WIDTH//2), 20)
+particles = [
+    Particle((config.HEIGHT//2, config.WIDTH//2),10,1000)
 ]
 
 def draw():
@@ -24,10 +26,10 @@ def draw():
     for b in bounds:
         b.draw(pygame, screen)
 
-    for r in rays:
-        r.draw(pygame,screen)
-
-
+    for p in particles:
+        p.draw(pygame, screen)
+        p.cast(bounds,pygame, screen)
+        
     # Update the display
     pygame.display.flip()
 
@@ -39,7 +41,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    rays[0].rotate(1)
+    mouse_pos = pygame.mouse.get_pos()
+    particles[0].set_pos(mouse_pos)
 
     draw()
 
